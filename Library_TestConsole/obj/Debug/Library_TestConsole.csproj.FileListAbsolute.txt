@@ -1,0 +1,15 @@
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_TestConsole.exe.config
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_TestConsole.exe
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_TestConsole.pdb
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_Business.dll
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_DataAccess.dll
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_Business.pdb
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_DataAccess.pdb
+C:\Users\Lenovo\source\repos\Library_TestConsole\obj\Debug\Library_TestConsole.csproj.AssemblyReference.cache
+C:\Users\Lenovo\source\repos\Library_TestConsole\obj\Debug\Library_TestConsole.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\source\repos\Library_TestConsole\obj\Debug\Library_.16C3D2C8.Up2Date
+C:\Users\Lenovo\source\repos\Library_TestConsole\obj\Debug\Library_TestConsole.exe
+C:\Users\Lenovo\source\repos\Library_TestConsole\obj\Debug\Library_TestConsole.pdb
+C:\Users\Lenovo\source\repos\Library_TestConsole\obj\Debug\Library_TestConsole.exe.config
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_Common.dll
+C:\Users\Lenovo\source\repos\Library_TestConsole\bin\Debug\Library_Common.pdb

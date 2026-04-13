@@ -1,0 +1,36 @@
+[2026-04-06 09:34:18] [ERROR] Database Error: Invalid column name 'LastStatusDate'.
+[2026-04-06 09:34:18] [ERROR] Database Error: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 09:39:27] [ERROR] Database Error: Invalid column name 'LastStatusDate'.
+[2026-04-06 09:39:27] [ERROR] Database Error: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 09:44:43] [INFO] Test: Integration Test Started.
+[2026-04-06 09:44:44] [ERROR] Database Error: Invalid column name 'LastStatusDate'.
+[2026-04-06 09:44:44] [ERROR] Database Error: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 09:45:07] [INFO] Test: Integration Test Started.
+[2026-04-06 09:45:07] [ERROR] Database Error: Invalid column name 'LastStatusDate'.
+[2026-04-06 09:45:07] [ERROR] Database Error: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 09:48:59] [INFO] Test: Integration Test Started.
+[2026-04-06 09:49:00] [ERROR] Database Error: Invalid column name 'LastStatusDate'.
+[2026-04-06 09:49:00] [ERROR] Database Error: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 13:22:09] [INFO] Test: Integration Test Started.
+[2026-04-06 13:22:09] [ERROR] Database Error: Invalid column name 'LastStatusDate'.
+[2026-04-06 13:22:09] [ERROR] Database Error: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 13:30:36] [INFO] Test: Integration Test Started.
+[2026-04-06 13:30:36] [ERROR] DB Exception: Invalid column name 'LastStatusDate'.
+[2026-04-06 13:30:36] [ERROR] DB Exception: Invalid column name 'FirstName'.
+Invalid column name 'LastName'.
+[2026-04-06 13:40:08] [INFO] Application Created Successfully - ID: 6
+[2026-04-06 13:40:08] [INFO] Application Status Changed to Completed - ID: 6
+[2026-04-06 13:41:52] [INFO] Application Created Successfully - ID: 7
+[2026-04-06 13:41:52] [INFO] Application Status Changed to Completed - ID: 7
+[2026-04-06 13:42:28] [INFO] Application Created Successfully - ID: 8
+[2026-04-06 13:42:28] [INFO] Application Status Changed to Completed - ID: 8
+[2026-04-06 13:43:49] [INFO] Application Created Successfully - ID: 9
+[2026-04-06 13:43:49] [INFO] Application Status Changed to Completed - ID: 9
+[2026-04-06 14:00:12] [INFO] Application Created Successfully - ID: 10
+[2026-04-06 14:00:12] [INFO] Application Status Changed to Completed - ID: 10

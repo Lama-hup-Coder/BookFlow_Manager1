@@ -1,0 +1,11 @@
+C:\Users\Lenovo\source\repos\Library_Business\bin\Debug\Library_Business.dll
+C:\Users\Lenovo\source\repos\Library_Business\bin\Debug\Library_Business.pdb
+C:\Users\Lenovo\source\repos\Library_Business\bin\Debug\Library_DataAccess.dll
+C:\Users\Lenovo\source\repos\Library_Business\bin\Debug\Library_DataAccess.pdb
+C:\Users\Lenovo\source\repos\Library_Business\obj\Debug\Library_Business.csproj.AssemblyReference.cache
+C:\Users\Lenovo\source\repos\Library_Business\obj\Debug\Library_Business.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\source\repos\Library_Business\obj\Debug\Library_.5DD80C47.Up2Date
+C:\Users\Lenovo\source\repos\Library_Business\obj\Debug\Library_Business.dll
+C:\Users\Lenovo\source\repos\Library_Business\obj\Debug\Library_Business.pdb
+C:\Users\Lenovo\source\repos\Library_Business\bin\Debug\Library_Common.dll
+C:\Users\Lenovo\source\repos\Library_Business\bin\Debug\Library_Common.pdb

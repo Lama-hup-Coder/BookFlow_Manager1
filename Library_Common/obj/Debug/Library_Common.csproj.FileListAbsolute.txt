@@ -1,0 +1,6 @@
+C:\Users\Lenovo\source\repos\Library_Common\bin\Debug\Library_Common.dll
+C:\Users\Lenovo\source\repos\Library_Common\bin\Debug\Library_Common.pdb
+C:\Users\Lenovo\source\repos\Library_Common\obj\Debug\Library_Common.csproj.AssemblyReference.cache
+C:\Users\Lenovo\source\repos\Library_Common\obj\Debug\Library_Common.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\source\repos\Library_Common\obj\Debug\Library_Common.dll
+C:\Users\Lenovo\source\repos\Library_Common\obj\Debug\Library_Common.pdb
