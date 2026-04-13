@@ -1,0 +1,340 @@
+USE [BookFlowDB]
+GO
+/****** Object:  Table [dbo].[People]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[People](
+	[PersonID] [int] IDENTITY(1,1) NOT NULL,
+	[NationalNo] [nvarchar](20) NOT NULL,
+	[FullName] [nvarchar](150) NOT NULL,
+	[DateOfBirth] [datetime] NOT NULL,
+	[Gendor] [tinyint] NOT NULL,
+	[Phone] [nvarchar](20) NOT NULL,
+	[Email] [nvarchar](50) NULL,
+	[Address] [nvarchar](500) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PersonID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BookCategories]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BookCategories](
+	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
+	[CategoryName] [nvarchar](50) NOT NULL,
+	[DefaultBorrowingDays] [tinyint] NOT NULL,
+	[LateFeePerDay] [smallmoney] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Books]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Books](
+	[BookID] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](200) NOT NULL,
+	[Author] [nvarchar](100) NOT NULL,
+	[ISBN] [nvarchar](50) NULL,
+	[CategoryID] [int] NULL,
+	[IsAvailable] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[BookID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Members]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Members](
+	[MemberID] [int] IDENTITY(1,1) NOT NULL,
+	[PersonID] [int] NULL,
+	[LibraryCardNumber] [nvarchar](50) NOT NULL,
+	[MembershipDate] [datetime] NULL,
+	[IsActive] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MemberID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Applications]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Applications](
+	[ApplicationID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicantPersonID] [int] NOT NULL,
+	[ApplicationDate] [datetime] NOT NULL,
+	[ApplicationTypeID] [int] NOT NULL,
+	[ApplicationStatus] [tinyint] NOT NULL,
+	[PaidFees] [smallmoney] NOT NULL,
+	[CreatedByUserID] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ApplicationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BorrowingRecords]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BorrowingRecords](
+	[BorrowID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationID] [int] NOT NULL,
+	[BookID] [int] NOT NULL,
+	[DueDate] [datetime] NOT NULL,
+	[ActualReturnDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[BorrowID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[v_BorrowingRecordsDetails]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE VIEW [dbo].[v_BorrowingRecordsDetails] AS
+SELECT 
+    B.BorrowID, 
+    B.ApplicationID,
+    -- سحب اسم العضو من جدول People مباشرة عبر الربط مع Applications
+    P.FullName AS MemberName, 
+    M.LibraryCardNumber,
+    B.BookID,
+    BK.Title AS BookTitle, 
+    B.DueDate, 
+    B.ActualReturnDate,
+    -- حالة الكتاب: مسترجع، متأخر، أو قيد الاستعارة
+    CASE 
+        WHEN B.ActualReturnDate IS NOT NULL THEN 'Returned'
+        WHEN CAST(GETDATE() AS DATE) > B.DueDate THEN 'Overdue'
+        ELSE 'Ongoing'
+    END AS Status,
+    -- حساب الغرامة بناءً على فئة الكتاب (BookCategories)
+    CASE 
+        WHEN B.ActualReturnDate IS NULL AND CAST(GETDATE() AS DATE) > B.DueDate 
+        THEN DATEDIFF(day, B.DueDate, GETDATE()) * BC.LateFeePerDay
+        ELSE 0
+    END AS CurrentFine
+FROM BorrowingRecords B
+INNER JOIN Books BK ON B.BookID = BK.BookID
+INNER JOIN BookCategories BC ON BK.CategoryID = BC.CategoryID
+INNER JOIN Applications A ON B.ApplicationID = A.ApplicationID
+INNER JOIN People P ON A.ApplicantPersonID = P.PersonID -- تأكدي من هذا الاسم في جدول Applications
+INNER JOIN Members M ON P.PersonID = M.PersonID; -- الربط مع جدول الأعضاء (بدون ديسكريبشن)
+GO
+/****** Object:  Table [dbo].[ApplicationTypes]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ApplicationTypes](
+	[ApplicationTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationTypeTitle] [nvarchar](150) NOT NULL,
+	[ApplicationFees] [smallmoney] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ApplicationTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[v_Applications_List]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[v_Applications_List] AS
+SELECT 
+    Applications.ApplicationID, 
+    Applications.ApplicantPersonID, 
+    -- استخدام اسم العمود الصحيح من جدول People
+    People.FullName, 
+    Applications.ApplicationDate, 
+    Applications.ApplicationTypeID, 
+    ApplicationTypes.ApplicationTypeTitle,
+    -- تحويل الحالة من رقم إلى نص مفهوم (Readable Status)
+    CASE 
+        WHEN Applications.ApplicationStatus = 1 THEN 'New'
+        WHEN Applications.ApplicationStatus = 2 THEN 'Cancelled'
+        WHEN Applications.ApplicationStatus = 3 THEN 'Completed'
+        ELSE 'Unknown'
+    END AS StatusName,
+    Applications.PaidFees, 
+    Applications.CreatedByUserID
+FROM Applications 
+INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID
+INNER JOIN ApplicationTypes ON Applications.ApplicationTypeID = ApplicationTypes.ApplicationTypeID;
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 4/13/2026 8:19:57 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[PersonID] [int] NULL,
+	[UserName] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](50) NOT NULL,
+	[IsActive] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Applications] ON 
+
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (1, 1, CAST(N'2026-03-21T16:57:47.927' AS DateTime), 1, 1, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (2, 1, CAST(N'2026-03-21T17:26:19.450' AS DateTime), 1, 1, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (3, 1, CAST(N'2026-03-21T17:26:57.607' AS DateTime), 1, 1, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (4, 1, CAST(N'2026-03-21T17:37:07.873' AS DateTime), 1, 1, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (5, 1, CAST(N'2026-03-21T17:40:26.463' AS DateTime), 1, 1, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (6, 1, CAST(N'2026-04-06T13:40:08.090' AS DateTime), 1, 3, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (7, 1, CAST(N'2026-04-06T13:41:52.117' AS DateTime), 1, 3, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (8, 1, CAST(N'2026-04-06T13:42:28.297' AS DateTime), 1, 3, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (9, 1, CAST(N'2026-04-06T13:43:49.103' AS DateTime), 1, 3, 15.5000, 1)
+INSERT [dbo].[Applications] ([ApplicationID], [ApplicantPersonID], [ApplicationDate], [ApplicationTypeID], [ApplicationStatus], [PaidFees], [CreatedByUserID]) VALUES (10, 1, CAST(N'2026-04-06T14:00:12.577' AS DateTime), 1, 3, 15.5000, 1)
+SET IDENTITY_INSERT [dbo].[Applications] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ApplicationTypes] ON 
+
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (1, N'New Borrowing', 2.0000)
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (2, N'Renew Borrowing', 1.0000)
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (3, N'Lost Book Replacement', 5.0000)
+INSERT [dbo].[ApplicationTypes] ([ApplicationTypeID], [ApplicationTypeTitle], [ApplicationFees]) VALUES (4, N'Annual Subscription', 20.0000)
+SET IDENTITY_INSERT [dbo].[ApplicationTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[BookCategories] ON 
+
+INSERT [dbo].[BookCategories] ([CategoryID], [CategoryName], [DefaultBorrowingDays], [LateFeePerDay]) VALUES (1, N'Rare Books', 3, 5.0000)
+INSERT [dbo].[BookCategories] ([CategoryID], [CategoryName], [DefaultBorrowingDays], [LateFeePerDay]) VALUES (2, N'Academic', 14, 2.0000)
+INSERT [dbo].[BookCategories] ([CategoryID], [CategoryName], [DefaultBorrowingDays], [LateFeePerDay]) VALUES (3, N'General', 21, 1.0000)
+INSERT [dbo].[BookCategories] ([CategoryID], [CategoryName], [DefaultBorrowingDays], [LateFeePerDay]) VALUES (4, N'Programming', 10, 5.7500)
+SET IDENTITY_INSERT [dbo].[BookCategories] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Books] ON 
+
+INSERT [dbo].[Books] ([BookID], [Title], [Author], [ISBN], [CategoryID], [IsAvailable]) VALUES (1, N'Clean Code', N'Robert Martin', N'ISBN-001', 2, 1)
+INSERT [dbo].[Books] ([BookID], [Title], [Author], [ISBN], [CategoryID], [IsAvailable]) VALUES (2, N'The Hobbit', N'J.R.R. Tolkien', N'ISBN-003', 3, 1)
+INSERT [dbo].[Books] ([BookID], [Title], [Author], [ISBN], [CategoryID], [IsAvailable]) VALUES (3, N'C# Programming Expert', N'', N'978-12345', 4, 1)
+SET IDENTITY_INSERT [dbo].[Books] OFF
+GO
+SET IDENTITY_INSERT [dbo].[People] ON 
+
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FullName], [DateOfBirth], [Gendor], [Phone], [Email], [Address]) VALUES (1, N'N1', N'Admin User', CAST(N'1985-01-01T00:00:00.000' AS DateTime), 0, N'000000', N'admin@library.com', N'System HQ')
+INSERT [dbo].[People] ([PersonID], [NationalNo], [FullName], [DateOfBirth], [Gendor], [Phone], [Email], [Address]) VALUES (2, N'N07299628', N'Ahmed Mansour (Updated)', CAST(N'1990-05-20T00:00:00.000' AS DateTime), 0, N'0555555', N'ahmed@email.com', N'Baghdad, Iraq')
+SET IDENTITY_INSERT [dbo].[People] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+
+INSERT [dbo].[Users] ([UserID], [PersonID], [UserName], [Password], [IsActive]) VALUES (1, 1, N'admin', N'1234', 1)
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Books__447D36EA1AAFCEB1]    Script Date: 4/13/2026 8:19:57 AM ******/
+ALTER TABLE [dbo].[Books] ADD UNIQUE NONCLUSTERED 
+(
+	[ISBN] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Members__782CDFEF11FAC0D9]    Script Date: 4/13/2026 8:19:57 AM ******/
+ALTER TABLE [dbo].[Members] ADD UNIQUE NONCLUSTERED 
+(
+	[LibraryCardNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [UQ__Members__AA2FFB84DDA18D71]    Script Date: 4/13/2026 8:19:57 AM ******/
+ALTER TABLE [dbo].[Members] ADD UNIQUE NONCLUSTERED 
+(
+	[PersonID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__People__E9AA1A6594511FEC]    Script Date: 4/13/2026 8:19:57 AM ******/
+ALTER TABLE [dbo].[People] ADD UNIQUE NONCLUSTERED 
+(
+	[NationalNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [UQ__Users__AA2FFB84DA021E75]    Script Date: 4/13/2026 8:19:57 AM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[PersonID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__C9F284568CF1151D]    Script Date: 4/13/2026 8:19:57 AM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[UserName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Applications] ADD  DEFAULT (getdate()) FOR [ApplicationDate]
+GO
+ALTER TABLE [dbo].[Applications] ADD  DEFAULT ((1)) FOR [ApplicationStatus]
+GO
+ALTER TABLE [dbo].[ApplicationTypes] ADD  DEFAULT ((0)) FOR [ApplicationFees]
+GO
+ALTER TABLE [dbo].[BookCategories] ADD  DEFAULT ((7)) FOR [DefaultBorrowingDays]
+GO
+ALTER TABLE [dbo].[BookCategories] ADD  DEFAULT ((1)) FOR [LateFeePerDay]
+GO
+ALTER TABLE [dbo].[Books] ADD  DEFAULT ((1)) FOR [IsAvailable]
+GO
+ALTER TABLE [dbo].[Members] ADD  DEFAULT (getdate()) FOR [MembershipDate]
+GO
+ALTER TABLE [dbo].[Members] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[People] ADD  DEFAULT ((0)) FOR [Gendor]
+GO
+ALTER TABLE [dbo].[Users] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[Applications]  WITH CHECK ADD FOREIGN KEY([ApplicantPersonID])
+REFERENCES [dbo].[People] ([PersonID])
+GO
+ALTER TABLE [dbo].[Applications]  WITH CHECK ADD FOREIGN KEY([ApplicationTypeID])
+REFERENCES [dbo].[ApplicationTypes] ([ApplicationTypeID])
+GO
+ALTER TABLE [dbo].[Applications]  WITH CHECK ADD FOREIGN KEY([CreatedByUserID])
+REFERENCES [dbo].[Users] ([UserID])
+GO
+ALTER TABLE [dbo].[Books]  WITH CHECK ADD FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[BookCategories] ([CategoryID])
+GO
+ALTER TABLE [dbo].[BorrowingRecords]  WITH CHECK ADD FOREIGN KEY([ApplicationID])
+REFERENCES [dbo].[Applications] ([ApplicationID])
+GO
+ALTER TABLE [dbo].[BorrowingRecords]  WITH CHECK ADD FOREIGN KEY([BookID])
+REFERENCES [dbo].[Books] ([BookID])
+GO
+ALTER TABLE [dbo].[Members]  WITH CHECK ADD FOREIGN KEY([PersonID])
+REFERENCES [dbo].[People] ([PersonID])
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD FOREIGN KEY([PersonID])
+REFERENCES [dbo].[People] ([PersonID])
+GO
