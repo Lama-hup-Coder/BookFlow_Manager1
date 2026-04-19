@@ -7,3 +7,12 @@ C:\Users\Lenovo\source\repos\Library_DataAccess\obj\Debug\Library_DataAccess.pdb
 C:\Users\Lenovo\source\repos\Library_DataAccess\bin\Debug\Library_Common.dll
 C:\Users\Lenovo\source\repos\Library_DataAccess\bin\Debug\Library_Common.pdb
 C:\Users\Lenovo\source\repos\Library_DataAccess\obj\Debug\Library_.E4FD90A3.Up2Date
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\bin\Debug\Library_DataAccess.dll
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\bin\Debug\Library_DataAccess.pdb
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\bin\Debug\Library_Common.dll
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\bin\Debug\Library_Common.pdb
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\obj\Debug\Library_DataAccess.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\obj\Debug\Library_DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\obj\Debug\Library_.E4FD90A3.Up2Date
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\obj\Debug\Library_DataAccess.dll
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_DataAccess\obj\Debug\Library_DataAccess.pdb
