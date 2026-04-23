@@ -95,6 +95,14 @@ namespace Library_Business
             return clsBookData.IsBookExist(ISBN);
         }
 
+
+       
+        public static int CountBooks()
+        {
+            // استدعاء دالة العد من طبقة الداتا لير
+            return clsBookData.GetTotalBooksCount();
+        }
+
         // تحقق عن طريق الـ ID (يستخدم غالباً قبل الحذف أو التعديل)
         public static bool IsExist(int BookID)
         {

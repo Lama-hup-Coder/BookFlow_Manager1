@@ -1,4 +1,6 @@
-﻿using BookFlow_Manager1.Books.Controls;
+﻿using BookFlow_Manager1.Books;
+using BookFlow_Manager1.Books.Controls;
+using Library_Business;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BookFlow_Manager1.Books;
 
 namespace BookFlow_Manager1
 {
@@ -46,6 +47,10 @@ namespace BookFlow_Manager1
             _ShowControl(ctrl);
         }
 
-        
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            // استبدلي lblTotalBooks باسم الليبل الموجود عندك في التصميم
+            lblBooksCount.Text = clsBook.CountBooks().ToString("D2");
+        }
     }
 }

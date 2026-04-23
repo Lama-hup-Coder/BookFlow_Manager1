@@ -410,6 +410,7 @@
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "نظام إدارة المكتبة - لوحة التحكم";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.pnlSideMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

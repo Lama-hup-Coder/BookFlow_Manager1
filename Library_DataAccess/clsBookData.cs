@@ -264,6 +264,33 @@ namespace Library_DataAccess
             return dt;
         }
 
+        public static int GetTotalBooksCount()
+        {
+            int Count = 0;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+                {
+                    // نستخدم اسم الجدول ديناميكياً كما فعلتِ في باقي الدوال
+                    string query = $"SELECT COUNT(*) FROM {_GetTableName()}";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+                        if (result != null && int.TryParse(result.ToString(), out int temp))
+                        {
+                            Count = temp;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLogger.Log("GetCount Error: " + ex.Message, "ERROR", EventLogger.LogTarget.TextFile);
+            }
+            return Count;
+        }
+
         public static bool IsBookExist(int BookID)
         {
             bool isFound = false;
