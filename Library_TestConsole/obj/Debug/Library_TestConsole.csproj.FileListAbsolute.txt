@@ -27,3 +27,4 @@ C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_TestConsole\obj\De
 C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_TestConsole\obj\Debug\Library_.16C3D2C8.Up2Date
 C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_TestConsole\obj\Debug\Library_TestConsole.exe
 C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_TestConsole\obj\Debug\Library_TestConsole.pdb
+C:\Users\Lenovo\Desktop\LamaProject\BookFlow_Manager1\Library_TestConsole\obj\Debug\Library_TestConsole.exe.config

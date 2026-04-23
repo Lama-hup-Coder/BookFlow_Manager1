@@ -264,6 +264,33 @@ namespace Library_DataAccess
             return dt;
         }
 
+        public static bool IsBookExist(int BookID)
+        {
+            bool isFound = false;
+            // تأكدي من كتابة الـ Query والـ Connection بشكل صحيح
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+            string query = "SELECT Found=1 FROM Books WHERE BookID = @BookID";
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@BookID", BookID);
+
+            try
+            {
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    isFound = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                // EventLogger.Log(ex.Message); // اختياري
+            }
+            finally { connection.Close(); }
+
+            return isFound;
+        }
+
         public static bool CanDeleteBook(int BookID)
         {
             try

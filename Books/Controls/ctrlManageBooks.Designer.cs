@@ -28,15 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ctrlManageBooks));
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblFilterBy = new System.Windows.Forms.Label();
             this.cbFilterBy = new System.Windows.Forms.ComboBox();
             this.txtFilterValue = new System.Windows.Forms.TextBox();
             this.dgvBooks = new System.Windows.Forms.DataGridView();
+            this.cmsLibraryOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.updateBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pbHeaderIcon = new System.Windows.Forms.PictureBox();
             this.btnAddBook = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBooks)).BeginInit();
+            this.cmsLibraryOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeaderIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,7 +81,6 @@
             this.cbFilterBy.Name = "cbFilterBy";
             this.cbFilterBy.Size = new System.Drawing.Size(168, 24);
             this.cbFilterBy.TabIndex = 2;
-            this.cbFilterBy.SelectedIndexChanged += new System.EventHandler(this.cbFilterBy_SelectedIndexChanged);
             // 
             // txtFilterValue
             // 
@@ -93,6 +97,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvBooks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBooks.ContextMenuStrip = this.cmsLibraryOptions;
             this.dgvBooks.Location = new System.Drawing.Point(3, 176);
             this.dgvBooks.Name = "dgvBooks";
             this.dgvBooks.RowHeadersWidth = 51;
@@ -100,6 +105,34 @@
             this.dgvBooks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvBooks.Size = new System.Drawing.Size(1104, 832);
             this.dgvBooks.TabIndex = 5;
+            // 
+            // cmsLibraryOptions
+            // 
+            this.cmsLibraryOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmsLibraryOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateBookToolStripMenuItem,
+            this.deleteBookToolStripMenuItem});
+            this.cmsLibraryOptions.Name = "cmsLibraryOptions";
+            this.cmsLibraryOptions.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.cmsLibraryOptions.Size = new System.Drawing.Size(215, 84);
+            // 
+            // updateBookToolStripMenuItem
+            // 
+            this.updateBookToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("updateBookToolStripMenuItem.Image")));
+            this.updateBookToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.updateBookToolStripMenuItem.Name = "updateBookToolStripMenuItem";
+            this.updateBookToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
+            this.updateBookToolStripMenuItem.Text = "Update Book";
+            this.updateBookToolStripMenuItem.Click += new System.EventHandler(this.updateBookToolStripMenuItem_Click);
+            // 
+            // deleteBookToolStripMenuItem
+            // 
+            this.deleteBookToolStripMenuItem.Image = global::BookFlow_Manager1.Properties.Resources.Delete_32_2;
+            this.deleteBookToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.deleteBookToolStripMenuItem.Name = "deleteBookToolStripMenuItem";
+            this.deleteBookToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
+            this.deleteBookToolStripMenuItem.Text = "Delete Book";
+            this.deleteBookToolStripMenuItem.Click += new System.EventHandler(this.deleteBookToolStripMenuItem_Click);
             // 
             // pbHeaderIcon
             // 
@@ -138,6 +171,7 @@
             this.Size = new System.Drawing.Size(1110, 1011);
             this.Load += new System.EventHandler(this.ctrlManageBooks_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvBooks)).EndInit();
+            this.cmsLibraryOptions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbHeaderIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -153,5 +187,8 @@
         private System.Windows.Forms.Button btnAddBook;
         private System.Windows.Forms.DataGridView dgvBooks;
         private System.Windows.Forms.PictureBox pbHeaderIcon;
+        private System.Windows.Forms.ContextMenuStrip cmsLibraryOptions;
+        private System.Windows.Forms.ToolStripMenuItem updateBookToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteBookToolStripMenuItem;
     }
 }

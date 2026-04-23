@@ -95,6 +95,11 @@ namespace Library_Business
             return clsBookData.IsBookExist(ISBN);
         }
 
+        // تحقق عن طريق الـ ID (يستخدم غالباً قبل الحذف أو التعديل)
+        public static bool IsExist(int BookID)
+        {
+            return clsBookData.IsBookExist(BookID);
+        }
         public static bool Delete(int BookID)
         {
             try
